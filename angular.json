@@ -1,0 +1,161 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "cesium-angular-example": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-builders/custom-webpack:browser",
+          "options": {
+            "outputPath": "dist/cesium-angular-example",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
+            "tsConfig": "tsconfig.app.json",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "node_modules/cesium/Build/Cesium/Workers",
+                "output": "/assets/cesium/Workers"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/cesium/Build/Cesium/ThirdParty",
+                "output": "/assets/cesium/ThirdParty"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/cesium/Build/Cesium/Assets",
+                "output": "/assets/cesium/Assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/cesium/Build/Cesium/Widgets",
+                "output": "/assets/cesium/Widgets"
+              }
+            ],
+            "styles": [
+              "node_modules/cesium/Build/Cesium/Widgets/widgets.css",
+              "src/styles.css"
+            ],
+            "scripts": [],
+            "customWebpackConfig": {
+              "path": "./extra-webpack.config.js"
+            },
+            "allowedCommonJsDependencies": [
+              "dompurify",
+              "protobufjs",
+              "mersenne-twister",
+              "earcut",
+              "rbush",
+              "urijs",
+              "grapheme-splitter",
+              "nosleep.js",
+              "bitmap-sdf"
+           ]
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-builders/custom-webpack:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "cesium-angular-example:build:production"
+            },
+            "development": {
+              "browserTarget": "cesium-angular-example:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "cesium-angular-example:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-builders/custom-webpack:karma",
+          "options": {
+            "main": "src/test.ts",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
+            "tsConfig": "tsconfig.spec.json",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "node_modules/cesium/Build/Cesium/Workers",
+                "output": "/assets/cesium/Workers"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/cesium/Build/Cesium/ThirdParty",
+                "output": "/assets/cesium/ThirdParty"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/cesium/Build/Cesium/Assets",
+                "output": "/assets/cesium/Assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/cesium/Build/Cesium/Widgets",
+                "output": "/assets/cesium/Widgets"
+              }
+            ],
+            "styles": [
+              "node_modules/cesium/Build/Cesium/Widgets/widgets.css",
+              "src/styles.css"
+            ],
+            "scripts": [],
+            "customWebpackConfig": {
+              "path": "./extra-webpack.config.js"
+            }
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "analytics": "fd1e29de-2465-4c39-aaa1-9e148d71663e"
+  }
+}
